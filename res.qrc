@@ -1,0 +1,48 @@
+<RCC>
+    <qresource prefix="/sounds">
+        <file>Cataclysmic_Molten_Core.mp3</file>
+        <file>BombDrop.wav</file>
+        <file>BombExplosion.wav</file>
+        <file>BombTime.wav</file>
+        <file>Die.wav</file>
+        <file>GameStart.wav</file>
+        <file>Life.wav</file>
+        <file>ReadyFight.wav</file>
+        <file>Select.wav</file>
+        <file>Warning.wav</file>
+        <file>WhenKick.wav</file>
+        <file>WhenShift.wav</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file>blauw_boven.gif</file>
+        <file>blauw_dood.gif</file>
+        <file>blauw_links.gif</file>
+        <file>blauw_onder.gif</file>
+        <file>blauw_rechts.gif</file>
+        <file>bom.gif</file>
+        <file>explosie.gif</file>
+        <file>grond.gif</file>
+        <file>item_bomb.gif</file>
+        <file>item_flame.gif</file>
+        <file>item_goldenflame.gif</file>
+        <file>item_kicker.gif</file>
+        <file>item_life.gif</file>
+        <file>item_none.gif</file>
+        <file>item_random.gif</file>
+        <file>item_safe.gif</file>
+        <file>item_shifter.gif</file>
+        <file>item_speedup.gif</file>
+        <file>krat.gif</file>
+        <file>kruit.gif</file>
+        <file>muur.gif</file>
+        <file>portaal_1.gif</file>
+        <file>portaal_2.gif</file>
+        <file>rood_boven.gif</file>
+        <file>rood_dood.gif</file>
+        <file>rood_links.gif</file>
+        <file>rood_onder.gif</file>
+        <file>rood_rechts.gif</file>
+        <file>BasicEnemy.png</file>
+        <file>BasicEnemyInjured.png</file>
+    </qresource>
+</RCC>
