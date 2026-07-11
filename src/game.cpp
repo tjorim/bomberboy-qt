@@ -12,6 +12,7 @@
 
 #include "bomb.h"
 #include "crate.h"
+#include "enemy.h"
 #include "floor.h"
 #include "gunpowder.h"
 #include "powerup.h"
@@ -305,6 +306,11 @@ bool Game::vuurActies(int x, int y, long startTime)
     }
     else if (th->getType() == Thing::thingType::GUNPOWDER) {
         vuurKruit();
+    }
+    else if (th->getType() == Thing::thingType::ENEMY) {
+        Enemy* en= dynamic_cast<Enemy*>(th);
+        en->setOnFire(true);
+        return true;
     }
     return false;
 }

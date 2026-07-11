@@ -20,7 +20,7 @@ public:
      * Enumeration class POWER - geef hier een beschrijving van de enum class
      * we only have seven powers, so no need for ints!
      */
-    enum class thingType: char {BOMB = 1, CRATE = 2, FLOOR = 3, GUNPOWDER = 4, PLAYER = 5, PORTAL = 6, POWERUP = 7, WALL = 8};
+    enum class thingType: char {BOMB = 1, CRATE = 2, FLOOR = 3, GUNPOWDER = 4, PLAYER = 5, PORTAL = 6, POWERUP = 7, WALL = 8, ENEMY = 9};
 
     /**
      * Is het voorwerp betreedbaar?

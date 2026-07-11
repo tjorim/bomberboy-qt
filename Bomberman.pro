@@ -18,6 +18,7 @@ SOURCES += main.cpp \
     player.cpp \
     bomb.cpp \
     crate.cpp \
+    enemy.cpp \
     playerinfo.cpp \
     thingboard.cpp \
     floor.cpp \
@@ -31,6 +32,7 @@ HEADERS  += \
     player.h \
     bomb.h \
     crate.h \
+    enemy.h \
     playerinfo.h \
     thing.h \
     thingboard.h \
