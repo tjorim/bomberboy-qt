@@ -12,6 +12,7 @@
 
 #include "bomb.h"
 #include "crate.h"
+#include "enemy.h"
 #include "floor.h"
 #include "gunpowder.h"
 #include "powerup.h"
@@ -221,7 +222,7 @@ void Game::bomHelper(Player *speler)
             // create a bomb with floor under it
             Bomb *bomb = new Bomb(speler->getPlayerNumber(), new Floor());
             qDebug() << "Bomb created";
-            bomb->setPos(speler->getXCo(), speler->getYCo());
+            bomb->setLoc(speler->getXCo(), speler->getYCo());
             scene->addItem(bomb);
             //speler->setThingUnderPlayer(new Bomb(speler->getPlayerNumber(), new Floor()));
         }
@@ -230,7 +231,7 @@ void Game::bomHelper(Player *speler)
             // create a bomb with gunpowder under it
             /*Bomb *bomb = new Bomb(speler->getPlayerNumber(), new Gunpowder());
             qDebug() << "Bomb created";
-            bomb->setPos(speler->getXCo(), speler->getYCo());
+            bomb->setLoc(speler->getXCo(), speler->getYCo());
             scene->addItem(bomb);
             */speler->setThingUnderPlayer(new Bomb(speler->getPlayerNumber(), new Gunpowder()));
         }
@@ -241,6 +242,7 @@ void Game::bomHelper(Player *speler)
 
 void Game::bomVuur(int speler, int bomX, int bomY, long startTime)
 {
+    vuurActies(bomX, bomY, startTime);
     vuurHelper(players[speler], bomX, bomY, startTime);
 }
 
@@ -276,6 +278,10 @@ void Game::vuurHelper(Player *speler, int bomX, int bomY, long startTime)
 bool Game::vuurActies(int x, int y, long startTime)
 {
     Thing *th = thingBoard->getThing(x, y);
+    if (th == nullptr)
+    {
+        return true;
+    }
     if(th->getType() == Thing::thingType::WALL || th->getType() == Thing::thingType::PORTAL)
     {
         return true;
@@ -306,6 +312,11 @@ bool Game::vuurActies(int x, int y, long startTime)
     else if (th->getType() == Thing::thingType::GUNPOWDER) {
         vuurKruit();
     }
+    else if (th->getType() == Thing::thingType::ENEMY) {
+        Enemy* en= dynamic_cast<Enemy*>(th);
+        en->setOnFire(true);
+        return true;
+    }
     return false;
 }
 
@@ -327,6 +338,121 @@ void Game::vuurKruit()
                 if (pl->getThingUnderPlayer()->getType() == Thing::thingType::GUNPOWDER)
                 {
                     pl->setOnFire(true);
+                }
+            }
+        }
+    }
+}
+
+
+void Game::doofVuur(int speler, int bomX, int bomY)
+{
+    doofActies(bomX, bomY);
+    doofHelper(players[speler], bomX, bomY);
+}
+
+void Game::doofHelper(Player *speler, int bomX, int bomY)
+{
+    bool breakFlag = false;
+    for (int j = bomY-1; j > bomY-speler->getHoeveelVuur()-1 && !breakFlag; j--)
+    {
+        breakFlag = doofActies(bomX, j);
+    }
+
+    breakFlag = false;
+    for (int i = bomX+1; i < bomX+speler->getHoeveelVuur()+1 && !breakFlag; i++)
+    {
+        breakFlag = doofActies(i, bomY);
+    }
+
+    breakFlag = false;
+    for (int j = bomY+1; j < bomY+speler->getHoeveelVuur()+1 && !breakFlag; j++)
+    {
+        breakFlag = doofActies(bomX, j);
+    }
+
+    breakFlag = false;
+    for (int i = bomX-1; i > bomX-speler->getHoeveelVuur()-1 && !breakFlag; i--)
+    {
+        breakFlag = doofActies(i, bomY);
+    }
+}
+
+bool Game::doofActies(int x, int y)
+{
+    Thing *th = thingBoard->getThing(x, y);
+    if (th == nullptr)
+    {
+        return true;
+    }
+
+    if (th->getType() == Thing::thingType::WALL || th->getType() == Thing::thingType::PORTAL)
+    {
+        return true;
+    }
+    else if (th->getType() == Thing::thingType::CRATE)
+    {
+        scene->removeItem(th);
+        Floor *floor = new Floor();
+        thingBoard->placeThing(x, y, floor);
+        scene->addItem(floor);
+        delete th;
+        return true;
+    }
+    else if (th->getType() == Thing::thingType::POWERUP)
+    {
+        PowerUp *po = dynamic_cast<PowerUp*>(th);
+        po->setOnFire(false);
+        po->setOpen(true);
+        return true;
+    }
+    else if (th->getType() == Thing::thingType::FLOOR)
+    {
+        Floor *fl = dynamic_cast<Floor*>(th);
+        fl->setOnFire(false);
+    }
+    else if (th->getType() == Thing::thingType::PLAYER)
+    {
+        Player *pl = dynamic_cast<Player*>(th);
+        if (pl->isOnFire())
+        {
+            pl->eenLevenMinder();
+            pl->setOnFire(false);
+        }
+    }
+    else if (th->getType() == Thing::thingType::GUNPOWDER)
+    {
+        doofKruit();
+    }
+    else if (th->getType() == Thing::thingType::ENEMY)
+    {
+        Enemy *en = dynamic_cast<Enemy*>(th);
+        en->setOnFire(false);
+        return true;
+    }
+
+    return false;
+}
+
+void Game::doofKruit()
+{
+    for (int i=0; i < getWidth(); i++)
+    {
+        for (int j=0; j < getHeight(); j++)
+        {
+            Thing *th = thingBoard->getThing(i, j);
+            if (th->getType() == Thing::thingType::GUNPOWDER)
+            {
+                Gunpowder *gu = dynamic_cast<Gunpowder*>(th);
+                gu->setOnFire(false);
+            }
+            else if (th->getType() == Thing::thingType::PLAYER)
+            {
+                Player *pl = dynamic_cast<Player*>(th);
+                if (pl->isOnFire())
+                {
+                    pl->eenLevenMinder();
+                    pl->setOnFire(false);
                 }
             }
         }

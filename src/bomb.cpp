@@ -36,9 +36,16 @@ void Bomb::explode()
     setOnFire(true);
     game->bomVuur(playerNumber, getXCo(), getYCo(), 0);
 
-    // delete the bomb
-    //scene()->removeItem(this);
-    delete this;
+    QTimer::singleShot(timerDoof, this, SLOT(extinguish()));
+}
+
+void Bomb::extinguish()
+{
+    game->doofVuur(playerNumber, getXCo(), getYCo());
+    if (scene()) {
+        scene()->removeItem(this);
+    }
+    deleteLater();
     qDebug() << "Bomb deleted";
 }
 

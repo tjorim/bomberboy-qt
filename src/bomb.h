@@ -128,6 +128,7 @@ public:
 
 public slots:
     void explode();
+    void extinguish();
 
 private:
     QMediaPlayer *bombSounds;
