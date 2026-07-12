@@ -23,6 +23,6 @@ bool Floor::isOnFire() const
 
 void Floor::setOnFire(bool value)
 {
-    setPixmap(QPixmap(":/images/explosie.gif"));
+    setPixmap(QPixmap(value ? ":/images/explosie.gif" : ":/images/grond.gif"));
     onFire = value;
 }

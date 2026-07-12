@@ -91,6 +91,14 @@ public:
     void vuurKruit();
 
     /**
+     * Doof het vuur rondom een ontplofte bom en pas explosieschade toe.
+     */
+    void doofVuur(int speler, int bomX, int bomY);
+    void doofHelper(Player *speler, int bomX, int bomY);
+    bool doofActies(int x, int y);
+    void doofKruit();
+
+    /**
      * Beweeg 1 vakje naar links.
      *
      * @param speler Het nummer van de speler.
